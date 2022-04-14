@@ -101,10 +101,21 @@ public class MonPanier {
 
             @Override
             public boolean apply(WebDriver input) {
-                return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete");
+                return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete"); //return jQuery.active == 0
             }
         };
         wait.until(pageLoaded);
     }
+
+//    public void WaitForAjax() {
+//        while (true) // Handle timeout somewhere
+//             {
+//             var ajaxIsComplete = (bool)(driver as IJavaScriptExecutor).ExecuteScript("return jquery.active == 0");
+//        if (ajaxIsComplete)
+//            break;
+//        Thread.Sleep(100);
+//             }
+//    }
+
 
 }
