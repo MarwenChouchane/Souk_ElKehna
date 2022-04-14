@@ -3,6 +3,7 @@ package pages.tunnelAchat;
 import com.google.common.base.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -79,9 +80,14 @@ public class MonPanier {
             details.findElement(newQuantity).sendKeys(quantity);
             System.out.println(details.findElement(newQuantity).getText());
             details.findElement(Price).click();
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
 
-            waitForPageLoad(driver);
+            WebDriverWait wait = new WebDriverWait(driver, 30);
+            wait.until((ExpectedCondition<Boolean>) wdriver -> ((JavascriptExecutor) driver).executeScript(
+                    "return document.readyState"
+            ).equals("complete"));
+
+            //waitForPageLoad(driver);
         }
 
         public void clearField(WebElement element){
@@ -94,18 +100,18 @@ public class MonPanier {
         } // il faut terminer la fonction setQuantity : clear field
     }
 
-    static void waitForPageLoad(WebDriver wdriver) {
-        WebDriverWait wait = new WebDriverWait(wdriver, 60);
-
-        Predicate<WebDriver> pageLoaded = new Predicate<WebDriver>() {
-
-            @Override
-            public boolean apply(WebDriver input) {
-                return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete"); //return jQuery.active == 0
-            }
-        };
-        wait.until(pageLoaded);
-    }
+//    static void waitForPageLoad(WebDriver wdriver) {
+//        WebDriverWait wait = new WebDriverWait(wdriver, 60);
+//
+//        Predicate<WebDriver> pageLoaded = new Predicate<WebDriver>() {
+//
+//            @Override
+//            public boolean apply(WebDriver input) {
+//                return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete"); //return jQuery.active == 0
+//            }
+//        };
+//        wait.until(pageLoaded);
+//    }
 
 //    public void WaitForAjax() {
 //        while (true) // Handle timeout somewhere
