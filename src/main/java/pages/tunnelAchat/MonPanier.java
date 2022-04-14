@@ -1,9 +1,7 @@
 package pages.tunnelAchat;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.base.Predicate;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -74,16 +72,39 @@ public class MonPanier {
             details.findElement(deleteButton).click();
         }
 
-        public void setQuantity (String quantity){
+        public void setQuantity (String quantity) throws InterruptedException {
+            WebElement quantityField = details.findElement(newQuantity);
+            clearField(quantityField);
+            System.out.println(details.findElement(newQuantity).getText());
             details.findElement(newQuantity).sendKeys(quantity);
+            System.out.println(details.findElement(newQuantity).getText());
+            details.findElement(Price).click();
+            Thread.sleep(1000);
+
+            waitForPageLoad(driver);
         }
-    }
-    public void clearField(WebElement element){
+
+        public void clearField(WebElement element){
 //        Actions action = new Actions(driver);
 //        action.click(element).perform();
 //        element.clear();
-        String s = Keys.chord(Keys.CONTROL, "a");
-        element.sendKeys(s);
-        element.sendKeys(Keys.DELETE);
-    } // il faut terminer la fonction setQuantity : clear field
+            String s = Keys.chord(Keys.CONTROL, "a");
+            element.sendKeys(s);
+            element.sendKeys(Keys.DELETE);
+        } // il faut terminer la fonction setQuantity : clear field
+    }
+
+    static void waitForPageLoad(WebDriver wdriver) {
+        WebDriverWait wait = new WebDriverWait(wdriver, 60);
+
+        Predicate<WebDriver> pageLoaded = new Predicate<WebDriver>() {
+
+            @Override
+            public boolean apply(WebDriver input) {
+                return ((JavascriptExecutor) input).executeScript("return document.readyState").equals("complete");
+            }
+        };
+        wait.until(pageLoaded);
+    }
+
 }

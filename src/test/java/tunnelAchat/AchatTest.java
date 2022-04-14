@@ -68,10 +68,13 @@ public class AchatTest extends BaseTests {
         homePage.addToCardRapid();
         var panier = homePage.checkOutRapid();
         panier.getCommandePrice();
-        var productsDetails = panier.getDetailsProducts(1);
+        var productsDetails = panier.getDetailsProducts(2);
         productsDetails.getTitle();
         productsDetails.getUnitPrice();
-        productsDetails.getPrice();
+        String firstPrice = productsDetails.getPrice();
+        productsDetails.setQuantity("10");
+        String newPrice = productsDetails.getPrice();
+        Assert.assertNotEquals(firstPrice, newPrice);
         //panier.commander();
     }
 }
