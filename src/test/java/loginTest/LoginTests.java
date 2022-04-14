@@ -8,7 +8,7 @@ import static org.testng.Assert.assertEquals;
 
 public class LoginTests extends BaseTests {
 
-    @Test
+
     public void login(){
         var loginPage = homePage.clickLoginLink();
         loginPage.setEmail("marwen.chouchane@dotit-corp.com");

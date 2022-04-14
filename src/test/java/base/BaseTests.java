@@ -6,11 +6,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import pages.home.HomePage;
 import utiles.CookiesManager;
 import utiles.WindowManager;
 import java.util.concurrent.TimeUnit;
+
+import static org.testng.Assert.assertEquals;
 
 public class BaseTests {
     private WebDriver driver ;
@@ -27,14 +28,23 @@ public class BaseTests {
         homePage = new HomePage(driver);
     }
 
-    public void goHome(){
-        driver.get("http://s-e.dotit-corp.com/fr/");
-    }
+
 
     @AfterClass
     public void tearDown(){
         //driver.quit();
     }
+
+    @BeforeMethod
+    public void login (){
+        var loginPage = homePage.clickLoginLink();
+        loginPage.setEmail("marwen.chouchane@dotit-corp.com");
+        loginPage.setPassword("123456789");
+        var monComptePage = loginPage.loginSubmit();
+        assertEquals(monComptePage.getTitle(), "Mon compte", "This is incorrecte page");
+        homePage.goHome();
+    }
+
 /*
     @AfterMethod //Take screen shot if the test failed and enregistrer in "resource/scrennshot"
     public void recordFailure (ITestResult result){
@@ -64,4 +74,5 @@ public class BaseTests {
         //options.setHeadless(true);  //Run test without opening the browser
         return options;
     }
+
 }
