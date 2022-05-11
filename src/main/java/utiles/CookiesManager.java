@@ -1,5 +1,10 @@
 package utiles;
 
+//Get network response
+//            String scriptToExecute = "var performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {}; var network = performance.getEntries() || {}; return network;";
+//            String netData = ((JavascriptExecutor)driver).executeScript(scriptToExecute).toString();
+//            System.out.println(netData);
+
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 

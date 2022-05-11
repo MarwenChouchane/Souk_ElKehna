@@ -173,8 +173,10 @@ public class HomePage{
 
     public void continueShopping(){
         By continueButton = By
-                .cssSelector("button.btn.btn-primary");//#blockcart-modal > div > div > div > div.col-xs-12.cart-content > div:nth-child(2) > div > button
-        wait = new WebDriverWait(driver, 5);
+                .cssSelector("#blockcart-modal > div > div > div > div.col-xs-12.cart-content > div:nth-child(2) > div > button");// button.btn.btn-primary
+        wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.presenceOfElementLocated(continueButton));
+        //wait.until(ExpectedConditions.visibilityOf(driver.findElement(continueButton)));
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         driver.findElement(continueButton).click();
         //retryingFindClick(driver.findElement(continueButton));
@@ -193,21 +195,19 @@ public class HomePage{
                 .cssSelector("#owl-rate > div.owl-stage-outer > div > div > article > div > div.wb-product-desc.text-xs-left > div.add-cart.atc_div.bootstrap-touchspin > form > button"));
         System.out.println(ANSI_JAUNE+"La liste : "+ ANSI_RESET+ANSI_BLEU_BACKGROUND+listeTitle+ANSI_RESET+ANSI_JAUNE+" contient "+ANSI_RESET+allProductsAddToCardButton.size()+ANSI_JAUNE+" Elements"+ANSI_RESET);
         for (WebElement webElement : allProductsAddToCardButton) {
-            int i=0 ;
             wait = new WebDriverWait(driver, 10);
-            wait.until(ExpectedConditions.visibilityOf(webElement));
+            wait.until(ExpectedConditions.elementToBeClickable(webElement));
             if (webElement.isDisplayed()) {
+                wait.until(ExpectedConditions.elementToBeClickable(webElement));
                 webElement.click();
                 continueShopping();
-                System.out.println(i);
             }else{
                 WebElement fleche = driver.findElement(flecheDroiteOfRatedProduct);
                 clickFlechDroite(fleche);
-                wait.until(ExpectedConditions.visibilityOf(webElement));
+                wait.until(ExpectedConditions.elementToBeClickable(webElement));
                 Thread.sleep(1000);
                 webElement.click();
                 Thread.sleep(500);
-
                 continueShopping();
             }
         }

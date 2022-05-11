@@ -4,6 +4,7 @@ import base.BaseTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+
 public class AchatTest extends BaseTests {
 
     @Test
@@ -66,15 +67,30 @@ public class AchatTest extends BaseTests {
     @Test
     public void testGoToCheckoutFromHomePage() throws InterruptedException {
         homePage.addToCardRapid();
+        getChatBoxManager().hideElement("lc_chatbox");   //To hide the chatBox
+
         var panier = homePage.checkOutRapid();
+        String panierUrl = panier.getUrl();
         panier.getCommandePrice();
         var productsDetails = panier.getDetailsProducts(2);
         productsDetails.getTitle();
         productsDetails.getUnitPrice();
-        String firstPrice = productsDetails.getPrice();
-        productsDetails.setQuantity("10");
+        String oldQuantity = productsDetails.getQuantity();
+        String oldPrice = productsDetails.getPrice();
+        productsDetails.setQuantity("3");
+        String newQuantity = productsDetails.getQuantity();
+        panier.pageRefresh();
+        productsDetails = panier.getDetailsProducts(2);
         String newPrice = productsDetails.getPrice();
-        Assert.assertNotEquals(firstPrice, newPrice);
-        //panier.commander();
+        Assert.assertNotEquals(oldQuantity, newQuantity);
+        Assert.assertNotEquals(oldPrice, newPrice);
+
+        var adresse = panier.commander();
+        String adresseValidationUrl = adresse.getUrl();
+        Assert.assertNotEquals(panierUrl, adresseValidationUrl);
+        var adresseDetail = adresse.getAdresse(2);
+        adresseDetail.getadresseDetail();
+        adresseDetail.chooseAdresse();
+
     }
 }
