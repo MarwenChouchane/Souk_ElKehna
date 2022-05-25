@@ -92,5 +92,11 @@ public class AchatTest extends BaseTests {
         adresseDetail.getadresseDetail();
         adresseDetail.chooseAdresse();
 
+        var delevery = adresse.validateAdresse();
+        String deleveryValidationUrl = delevery.getUrl();
+        Assert.assertEquals(deleveryValidationUrl, adresseValidationUrl);
+        delevery.productDeleveryCheck(); //To check if there is a probleme with the delevery for those products
+
+        var paiement = delevery.validateShipement();
     }
 }

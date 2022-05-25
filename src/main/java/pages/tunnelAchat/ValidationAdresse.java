@@ -37,7 +37,7 @@ public class ValidationAdresse {
     public AdressesDetails getAdresse(int indexAdresse){
         WebElement mesAdresses = driver.findElements(monAdresse).get(indexAdresse-1);
         List<WebElement> meAdresses = driver.findElements(monAdresse);
-        System.out.println("Ma list des adresses contient : "+meAdresses.size());
+        System.out.println(ANSI_JAUNE+"Ma list des adresses contient : "+ANSI_RESET+meAdresses.size()+ANSI_JAUNE+" adresses"+ANSI_RESET);
         Actions actions = new Actions(driver);
         actions.moveToElement(mesAdresses).perform();
         return new AdressesDetails(mesAdresses.findElement(adresseCart));
@@ -66,9 +66,9 @@ public class ValidationAdresse {
         }
     }
 
-//    public ValidationShipement validateAdresse(){
-//        driver.findElement(By.name("confirm-addresses")).click();
-//        return new ValidationShipement(driver);
-//    }
+    public ValidationShipement validateAdresse(){
+        driver.findElement(By.name("confirm-addresses")).click();
+        return new ValidationShipement(driver);
+    }
 
 }

@@ -33,6 +33,7 @@ public class BaseTests {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.get("http://s-e.dotit-corp.com/fr/");
+        driver.findElement(By.className("fancybox-close")).click();
         homePage = new HomePage(driver);
         var chatBoxManager = getChatBoxManager();
         chatBoxManager.hideElement("lc_chatbox");
