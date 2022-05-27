@@ -6,6 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 
 public class MonPanier {
     private final WebDriver driver ;
@@ -24,7 +26,7 @@ public class MonPanier {
 
     public boolean waitForJSandJQueryToLoad() {
 
-        wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         // wait for jQuery to load
         ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
@@ -102,7 +104,7 @@ public class MonPanier {
         }
 
         public String getPrice (){
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.presenceOfElementLocated(price));
             System.out.println(ANSI_JAUNE+"Le prix total du produit est : "+ANSI_RESET+details.findElement(price).getText());
 //            try {
@@ -118,14 +120,14 @@ public class MonPanier {
         }
 
         public String getQuantity(){
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.presenceOfElementLocated(newQuantity));
             System.out.println(ANSI_JAUNE+"La quantité total du produit est : "+ANSI_RESET+details.findElement(newQuantity).getAttribute("value"));
             return details.findElement(newQuantity).getAttribute("value");
         }
 
         public void setQuantity (String quantity) {
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             WebElement quantityField = details.findElement(newQuantity);
             clearField(quantityField);
             details.findElement(newQuantity).sendKeys(quantity);
@@ -144,7 +146,7 @@ public class MonPanier {
         }
 
         public void selectTextField(WebElement element){
-            wait = new WebDriverWait(driver, 30);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             String s = Keys.chord(Keys.CONTROL, "a");
             element.sendKeys(s);

@@ -97,6 +97,7 @@ public class AchatTest extends BaseTests {
         Assert.assertEquals(deleveryValidationUrl, adresseValidationUrl);
         delevery.productDeleveryCheck(); //To check if there is a probleme with the delevery for those products
 
-        var paiement = delevery.validateShipement();
+        //var paiement = delevery.validateShipement();
     }
+
 }

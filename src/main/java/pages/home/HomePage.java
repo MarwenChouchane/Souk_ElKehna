@@ -12,6 +12,7 @@ import pages.monCompte.FavorisPage;
 import pages.monCompte.MonComptePage;
 import pages.tunnelAchat.MonPanier;
 
+import java.time.Duration;
 import java.util.List;
 import static org.openqa.selenium.support.locators.RelativeLocator.with;
 
@@ -63,7 +64,7 @@ public class HomePage{
 
     public LoginPage clickLoginLink(){
         driver.findElement(By.className("user-info")).click();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(with(By.cssSelector("li > a")).below(By.className("user-info"))));
         driver.findElement(with(By.cssSelector("li > a")).below(By.className("user-info"))).click();
         return new LoginPage(driver);
@@ -71,7 +72,7 @@ public class HomePage{
 
     public MonComptePage clickMonCompteLink(){
         driver.findElement(By.className("user-info")).click();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(with(By.cssSelector("li:nth-child(1) > a")).below(By.className("user-info"))));
         driver.findElement(with(By.cssSelector("li:nth-child(1) > a")).below(By.className("user-info"))).click();
         return new MonComptePage(driver);
@@ -90,7 +91,7 @@ public class HomePage{
     public void closePopupWislist(WebElement webElement){
         WebElement popup = driver.findElement(By.className("close-wishlist"));
 
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOf(popup));
         popup.click();
         System.out.println(ANSI_JAUNE+"After click " + ANSI_RESET+ webElement.getAttribute("onclick"));
@@ -121,13 +122,13 @@ public class HomePage{
         for (WebElement webElement : allProductsTitle) {
             System.out.println(ANSI_JAUNE+" La nom du produit est "+ANSI_RESET+webElement.getText());
             if(webElement.getText().contains(productName)) {
-                wait = new WebDriverWait(driver, 5);
+                wait = new WebDriverWait(driver, Duration.ofSeconds(5));
                 wait.until(ExpectedConditions.visibilityOf(webElement));
                 webElement.click();
                 break;
             }
             else{
-                wait = new WebDriverWait(driver, 5);
+                wait = new WebDriverWait(driver, Duration.ofSeconds(5));
                 wait.until(ExpectedConditions.visibilityOf(webElement));
                 WebElement container = driver.findElement(topProductSection);
                 WebElement fleche = driver.findElement(flecheDroiteOfTopProduct);
@@ -148,7 +149,7 @@ public class HomePage{
                 .cssSelector("#owl-fea > div.owl-stage-outer > div.owl-stage > div.owl-item > article > div.thumbnail-container > div.wb-image-block > button"));
         System.out.println(ANSI_JAUNE+"The list has : "+ ANSI_RESET+allProductsWishlistButton.size()+ANSI_JAUNE+" Elements"+ ANSI_RESET);
         for (WebElement webElement : allProductsWishlistButton) {
-            wait = new WebDriverWait(driver, 10);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             if (webElement.isDisplayed()) {
                 wait.until(ExpectedConditions.visibilityOf(webElement));
                 webElement.click();
@@ -161,7 +162,7 @@ public class HomePage{
                 webElement.click();
 
                 WebElement popup = driver.findElement(By.className("close-wishlist"));
-//                wait = new WebDriverWait(driver, 5);
+//                wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 //                wait.until(ExpectedConditions.visibilityOf(popup));
                 //retryingFindClick(popup);
                 popup.click();
@@ -174,7 +175,7 @@ public class HomePage{
     public void continueShopping(){
         By continueButton = By
                 .cssSelector("#blockcart-modal > div > div > div > div.col-xs-12.cart-content > div:nth-child(2) > div > button");// button.btn.btn-primary
-        wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.presenceOfElementLocated(continueButton));
         //wait.until(ExpectedConditions.visibilityOf(driver.findElement(continueButton)));
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
@@ -195,7 +196,7 @@ public class HomePage{
                 .cssSelector("#owl-rate > div.owl-stage-outer > div > div > article > div > div.wb-product-desc.text-xs-left > div.add-cart.atc_div.bootstrap-touchspin > form > button"));
         System.out.println(ANSI_JAUNE+"La liste : "+ ANSI_RESET+ANSI_BLEU_BACKGROUND+listeTitle+ANSI_RESET+ANSI_JAUNE+" contient "+ANSI_RESET+allProductsAddToCardButton.size()+ANSI_JAUNE+" Elements"+ANSI_RESET);
         for (WebElement webElement : allProductsAddToCardButton) {
-            wait = new WebDriverWait(driver, 10);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(webElement));
             if (webElement.isDisplayed()) {
                 wait.until(ExpectedConditions.elementToBeClickable(webElement));
@@ -218,7 +219,7 @@ public class HomePage{
 
     public FavorisPage clickFavorisLink (){
         driver.findElement(By.className("user-info")).click();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(with(By.cssSelector("#_desktop_user_info > ul > div.wishl > a"))
                 .below(By.className("user-info"))));
         driver.findElement(with(By.cssSelector("#_desktop_user_info > ul > div.wishl > a"))
@@ -228,7 +229,7 @@ public class HomePage{
 
     public ComparePage clickCompareLink (){
         driver.findElement(By.className("user-info")).click();
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(with(By.cssSelector("#_desktop_user_info > ul > div.hcom"))
                 .below(By.className("user-info"))));
         driver.findElement(with(By.cssSelector("#_desktop_user_info > ul > div.hcom"))
@@ -241,7 +242,7 @@ public class HomePage{
         String panierButtonStatus = panierButton.getAttribute("aria-expanded");
             panierButton.click();
         //Assert.assertEquals(panierButtonStatus, true, "The drop down menu isn't enabled");
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#_desktop_cart > div > div > div > ul > li > a")));
         driver.findElement(By.cssSelector("#_desktop_cart > div > div > div > ul > li > a")).click();
         return new MonPanier(driver);

@@ -8,15 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeGroups;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 import pages.home.HomePage;
 import utiles.ChatBoxManager;
 import utiles.CookiesManager;
 import utiles.WindowManager;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
@@ -29,16 +27,36 @@ public class BaseTests {
     @BeforeClass
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "resource/chromedriver.exe");
-        driver = new ChromeDriver(getChromeOptions());
+        driver = new ChromeDriver(); //new ChromeDriver(getChromeOptions())
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.get("http://s-e.dotit-corp.com/fr/");
-        driver.findElement(By.className("fancybox-close")).click();
+        waitForPageLoad();
+        List<WebElement> closePopup = driver.findElements(By.className("fancybox-close"));
+        if (closePopup.size()>0){
+            driver.findElement(By.className("fancybox-close")).click();
+        }
         homePage = new HomePage(driver);
         var chatBoxManager = getChatBoxManager();
         chatBoxManager.hideElement("lc_chatbox");
     }
 
+    public void waitForPageLoad() {
+        String pageLoadStatus = null;
+        JavascriptExecutor js;
+        do {
+            js = (JavascriptExecutor) driver;
+            pageLoadStatus = (String)js.executeScript("return document.readyState");
+        } while ( !pageLoadStatus.equals("complete") );
+        System.out.println("Page Loaded.");
+    }
+
+     @Test
+     public void test (){
+         boolean cartDrop = false;
+         boolean cartStyle = Boolean.parseBoolean(driver.findElement(By.className("cartdropd")).getAttribute("aria-expanded"));   //head-cart-drop
+         System.out.println("The value of the attribute aria-expanded of the cart Drop is : "+cartStyle);
+     }
 
 
     @AfterClass
