@@ -13,22 +13,38 @@ import pages.home.HomePage;
 import utiles.ChatBoxManager;
 import utiles.CookiesManager;
 import utiles.WindowManager;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 
 import static org.testng.Assert.assertEquals;
 
 public class BaseTests {
-    private WebDriver driver ;
+    protected static WebDriver driver;
+    protected static EyesManager eyesManager;
     WebDriverWait wait;
     protected HomePage homePage ;
 
 
     @BeforeClass
     public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "resource/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "resource/chromedriver1.exe");
         driver = new ChromeDriver(); //new ChromeDriver(getChromeOptions())
         driver.manage().window().maximize();
+
+        Properties props = System.getProperties();
+        try {
+            props.load(new FileInputStream(new File("resource/property.properties")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        eyesManager = new EyesManager(driver, "Souk ElKahina");
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.get("http://s-e.dotit-corp.com/fr/");
         waitForPageLoad();
@@ -37,8 +53,13 @@ public class BaseTests {
             driver.findElement(By.className("fancybox-close")).click();
         }
         homePage = new HomePage(driver);
-        var chatBoxManager = getChatBoxManager();
-        chatBoxManager.hideElement("lc_chatbox");
+//        var chatBoxManager = getChatBoxManager();
+//        chatBoxManager.hideElement("lc_chatbox");
+
+        var loginPage = homePage.clickLoginLink();
+        loginPage.setEmail("marwen2@yopmail.com");
+        loginPage.setPassword("123456789");
+        var monComptePage = loginPage.loginSubmit();
     }
 
     public void waitForPageLoad() {
@@ -62,18 +83,19 @@ public class BaseTests {
     @AfterClass
     public void tearDown(){
         //driver.quit();
+        eyesManager.abort();
     }
-
+/*
     @BeforeMethod
     public void login (){
         var loginPage = homePage.clickLoginLink();
-        loginPage.setEmail("marwen.chouchane@dotit-corp.com");
+        loginPage.setEmail("marwen2@yopmail.com");
         loginPage.setPassword("123456789");
         var monComptePage = loginPage.loginSubmit();
         assertEquals(monComptePage.getTitle(), "Mon compte", "This is incorrecte page");
         homePage.goHome();
     }
-
+*/
 //    @BeforeMethod
 //    public void closeChatBox (){
 //        var chatBoxManager = getChatBoxManager();
